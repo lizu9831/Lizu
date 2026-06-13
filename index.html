@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>LIZU.EXE</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:black;
+color:white;
+overflow:hidden;
+height:100vh;
+}
+
+.screen{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+.hidden{
+display:none;
+}
+
+#enter{
+font-size:20px;
+padding:15px 40px;
+background:transparent;
+border:1px solid white;
+color:white;
+}
+
+#terminal{
+font-family:monospace;
+font-size:20px;
+line-height:2;
+width:80%;
+max-width:600px;
+}
+
+.stars{
+position:absolute;
+width:100%;
+height:100%;
+background-image:
+radial-gradient(white 1px,transparent 1px);
+background-size:80px 80px;
+opacity:.25;
+}
+
+.rain{
+position:absolute;
+width:100%;
+height:100%;
+}
+
+.drop{
+position:absolute;
+width:1px;
+height:70px;
+background:rgba(255,255,255,.25);
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+to{
+transform:translateY(120vh);
+}
+}
+
+.quote{
+font-size:clamp(35px,6vw,70px);
+text-align:center;
+z-index:5;
+opacity:0;
+transition:2s;
+text-shadow:0 0 10px rgba(255,255,255,.4);
+}
+
+.show{
+opacity:1;
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+<source src="Hasan Raheem - Wishes ft Talwiinder Prod by Umair (Official Lyric Video).mp3" type="audio/mpeg">
+</audio>
+
+<div id="page1" class="screen">
+<button id="enter">ENTER</button>
+</div>
+
+<div id="page2" class="screen hidden">
+<div id="terminal"></div>
+</div>
+
+<div id="page3" class="screen hidden">
+
+<div class="stars"></div>
+
+<div class="rain" id="rain"></div>
+
+<div class="quote" id="quote">
+some wishes<br>
+stay untold.
+</div>
+
+</div>
+
+<script>
+
+const lines=[
+"INITIALIZING...",
+"ACCESSING USER: LIZU",
+"LOADING SOUNDTRACK...",
+"PLAYBACK READY"
+];
+
+document.getElementById("enter").onclick=()=>{
+
+document.getElementById("page1").classList.add("hidden");
+document.getElementById("page2").classList.remove("hidden");
+
+document.getElementById("music").play();
+
+typeLine();
+
+};
+
+let line=0;
+let char=0;
+
+function typeLine(){
+
+let terminal=
+document.getElementById("terminal");
+
+if(line>=lines.length){
+
+setTimeout(showFinal,1000);
+return;
+
+}
+
+if(char<lines[line].length){
+
+terminal.innerHTML+=
+lines[line][char];
+
+char++;
+
+setTimeout(typeLine,60);
+
+}else{
+
+terminal.innerHTML+="<br>";
+
+line++;
+char=0;
+
+setTimeout(typeLine,500);
+
+}
+
+}
+
+function showFinal(){
+
+document.getElementById("page2").classList.add("hidden");
+document.getElementById("page3").classList.remove("hidden");
+
+for(let i=0;i<150;i++){
+
+let drop=document.createElement("div");
+
+drop.className="drop";
+
+drop.style.left=Math.random()*100+"%";
+
+drop.style.animationDuration=
+(.5+Math.random())+"s";
+
+drop.style.animationDelay=
+Math.random()*2+"s";
+
+document.getElementById("rain")
+.appendChild(drop);
+
+}
+
+setTimeout(()=>{
+
+document.getElementById("quote")
+.classList.add("show");
+
+},300);
+
+}
+
+</script>
+
+</body>
+</html>
